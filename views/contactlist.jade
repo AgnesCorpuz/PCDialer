@@ -1,19 +1,32 @@
 extends layout
 
 block content
-  h1.
-    Contact List
-  ul
-    each contact, i in contactlist
-      li
-        label= contact.name + ' '
-        a(id='clickToDial' onclick="clickToDial(" + contact.number + ")" num=contact.number href="#")= contact.number
-  
-  label= "Add New Contacts:"
-    form#formAddContact(name="addcontact",method="post",action="/addcontact")
-      input#inputName(type="text", placeholder="name", name="name")
-      input#inputNumber(type="text", placeholder="number", name="number")
-      button#btnSubmit(type="submit") submit
+  body    
+    #myOverlay.w3-overlay.w3-hide-large(onclick='w3_close()', style='cursor:pointer', title='close side menu')
+    .w3-main(style='margin-left:250px')
+      .w3-row.w3-padding-64
+        .w3-twothird.w3-container
+          h1.w3-text-teal Add New Contact
+          div
+            form#formAddContact(name="addcontact",method="post",action="/addcontact")      
+              input#inputName(type="text", placeholder="Name", name="name", style='margin: 5px')
+              input#inputNumber(type="text", placeholder="Number", name="number", style='margin: 5px')
+              button#btnSubmit(type="submit") Add
+      .w3-row.w3-padding-64
+        .w3-twothird.w3-container
+          h1.w3-text-teal Contact List
+          div
+            table
+              thead
+                tr: th Name
+                  th Number
+              tbody
+                each contact, i in contactlist
+                  tr
+                    td
+                      label= contact.name
+                    td
+                      a(id='clickToDial' onclick="clickToDial(" + contact.number + ")" num=contact.number href="#")= contact.number
   
   script.
     function clickToDial(num) {
