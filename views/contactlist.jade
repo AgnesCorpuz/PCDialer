@@ -7,10 +7,19 @@ block content
     each contact, i in contactlist
       li
         label= contact.name + ' '
-        label= contact.number
+        a(id='clickToDial' onclick="clickToDial(" + contact.number + ")" num=contact.number href="#")= contact.number
   
   label= "Add New Contacts:"
     form#formAddContact(name="addcontact",method="post",action="/addcontact")
       input#inputName(type="text", placeholder="name", name="name")
       input#inputNumber(type="text", placeholder="number", name="number")
       button#btnSubmit(type="submit") submit
+  
+  script.
+    function clickToDial(num) {
+        console.log('process click to dial');
+        document.getElementById("softphone").contentWindow.postMessage(JSON.stringify({
+            type: 'clickToDial',
+            data: { number: num, autoPlace: true }
+        }), "*");
+    }

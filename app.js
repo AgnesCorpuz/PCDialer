@@ -28,7 +28,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-//
 app.set('port', (process.env.PORT || 3000));
 
 var sslOptions = {
@@ -47,7 +46,6 @@ var httpsPort = 443;
 console.log("starting on " + httpsPort + ' (https)');
 httpServer.listen(app.get('port'));
 httpsServer.listen(httpsPort);
-//
 
 // Make our db accessible to our router
 app.use(function(req,res,next){
