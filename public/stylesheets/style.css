@@ -1,0 +1,22 @@
+.softphone {
+  width: 200;
+  height: 450px;
+  position: fixed;
+  top: 10px;
+  right: 10px;
+}
+
+body > div > iframe {
+  width: inherit;
+  height: inherit;
+  border: none;
+}
+
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}
