@@ -46,6 +46,7 @@ block content
                     td(style="display: none")
                       label(style="display: none")= contact._id
                     td
+                      a(href="../contact/"+contact._id)= contact.FirstName
                       label= contact.LastName + ", " + contact.FirstName
                     td(style="display: none")
                       label= contact.FirstName
@@ -54,17 +55,18 @@ block content
                     td(style="display: none")
                       label= contact.Company
                     td
-                      a(id='clickToDial' class="tooltip" onclick="clickToDial(" + contact.number + ")" num=contact.number href="#")= contact.Phone
+                      a(id='clickToDial' class="tooltip" onclick="clickToDial(" + contact.Phone + ")" num=contact.Phone href="#")= contact.Phone
                         span(class="tooltiptext") Click to Dial
                     td
                       a(href="mailto:#{contact.Email}" class="tooltip")= contact.Email
                         span(class="tooltiptext") Email
 
-  script.
-    function clickToDial(num) {
-        console.log('process click to dial');
-        document.getElementById("softphone").contentWindow.postMessage(JSON.stringify({
-            type: 'clickToDial',
-            data: { number: num, autoPlace: true }
-        }), "*");
-    }
+  //- script.
+  //-   function clickToDial(num) {
+  //-       console.log('process click to dial');
+  //-       document.getElementById("softphone").contentWindow.postMessage(JSON.stringify({
+  //-           type: 'clickToDial',
+  //-           data: { number: num, autoPlace: true }
+  //-       }), "*");
+  //-   }
+

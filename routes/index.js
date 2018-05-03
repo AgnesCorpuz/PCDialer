@@ -1,9 +1,21 @@
 var express = require('express');
+var ObjectId = require('mongodb').ObjectId;
 var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'PCDialer' });
+});
+
+/* GET Contact page. */
+router.get('/contact/:id', function(req, res){
+    var db = req.db;
+    var o_id = new ObjectId(req.params.id);
+    db.get('ContactList').find({'_id': o_id}, function(e, docs){
+        res.render('contactPage', {
+           'contact' : docs[0] 
+        });
+    }); 
 });
 
 /* GET Contactlist page. */
@@ -17,9 +29,18 @@ router.get('/contactlist', function(req, res) {
   });
 });
 
+/* GET Contact via URL search. */
+router.get('/search/:query', function(req, res){
+    var db = req.db;
+    db.get('ContactList').find({'Phone': req.params.query}, function(e, docs){
+        if(docs){
+            res.redirect("../contact/" + docs[0]._id);
+        }
+    }); 
+});
+
 /* POST to Add Contact Service */
 router.post('/addcontact', function(req, res) {
-
   // Set our internal DB variable
   var db = req.db;
 
@@ -50,6 +71,5 @@ router.post('/addcontact', function(req, res) {
           res.redirect("contactlist");
       }
   });
-});
 
 module.exports = router;
