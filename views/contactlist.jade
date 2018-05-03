@@ -1,38 +1,70 @@
 extends layout
 
 block content
-  body    
+  body
     #myOverlay.w3-overlay.w3-hide-large(onclick='w3_close()', style='cursor:pointer', title='close side menu')
     .w3-main(style='margin-left:250px')
       .w3-row.w3-padding-16
         .w3-twothird.w3-container
           h1.w3-text-teal Add New Contact
-          div
-            form#formAddContact(name="addcontact",method="post",action="/addcontact")      
-              input#inputName(type="text", placeholder="Name", name="name", style='margin: 5px')
-              input#inputNumber(type="text", placeholder="Number", name="number", style='margin: 5px')
-              button#btnSubmit(type="submit") Add
+          form#formAddContact(name="addcontact",method="post",action="/addcontact")
+            div(style="display: inline-block; margin: 5px; width: 400px")
+              div
+                label= "First Name: "
+                input#inputFName(type="text", placeholder="First Name", name="fName", style="margin: 5px")
+              div
+                label= "Last Name: "
+                input#inputLName(type="text", placeholder="Last Name", name="lName", style="margin: 5px")
+              div
+                label= "Company: "
+                input#inputCompany(type="text", placeholder="Company", name="company", style="margin: 5px; margin-left: 13px")
+            div(style="display: inline-block; margin: 5px; width: 400px")
+              div
+                label= "Phone: "
+                input#inputPhone(type="text", placeholder="Phone", name="phone", style="margin: 5px")
+              div
+                label= "Email: "
+                input#inputEmail(type="text", placeholder="Email", name="email", style="margin: 5px; margin-left: 10px")
+              div
+                button#btnSubmit(type="submit", style="margin: 5px; margin-left: 235px") Add
       .w3-row.w3-padding-16
         .w3-twothird.w3-container
           h1.w3-text-teal Contact List
           div
             table
               thead
-                tr: th Name
-                  th Number
+                tr: th(style="display: none") _id
+                  th Name
+                  th(style="display: none") First Name
+                  th(style="display: none") Last Name
+                  th(style="display: none") Company
+                  th Phone
+                  th Email
               tbody
                 each contact, i in contactlist
                   tr
+                    td(style="display: none")
+                      label(style="display: none")= contact._id
                     td
-                      label= contact.name
+                      a(href="../contact/"+contact._id)= contact.FirstName
+                    td(style="display: none")
+                      label= contact.FirstName
+                    td(style="display: none")
+                      label= contact.LastName
+                    td(style="display: none")
+                      label= contact.Company
                     td
-                      a(id='clickToDial' onclick="clickToDial(" + contact.number + ")" num=contact.number href="#")= contact.number
-  
-  script.
-    function clickToDial(num) {
-        console.log('process click to dial');
-        document.getElementById("softphone").contentWindow.postMessage(JSON.stringify({
-            type: 'clickToDial',
-            data: { number: num, autoPlace: true }
-        }), "*");
-    }
+                      a(id='clickToDial' class="tooltip" onclick="clickToDial(" + contact.Phone + ")" num=contact.Phone href="#")= contact.Phone
+                        span(class="tooltiptext") Click to Dial
+                    td
+                      a(href="mailto:#{contact.Email}" class="tooltip")= contact.Email
+                        span(class="tooltiptext") Email
+
+  //- script.
+  //-   function clickToDial(num) {
+  //-       console.log('process click to dial');
+  //-       document.getElementById("softphone").contentWindow.postMessage(JSON.stringify({
+  //-           type: 'clickToDial',
+  //-           data: { number: num, autoPlace: true }
+  //-       }), "*");
+  //-   }

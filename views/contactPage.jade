@@ -1,0 +1,39 @@
+extends layout
+
+block content
+  body    
+    #myOverlay.w3-overlay.w3-hide-large(onclick='w3_close()', style='cursor:pointer', title='close side menu')
+    .w3-main(style='margin-left:250px')
+      .w3-row.w3-padding-16
+        .w3-twothird.w3-container
+          h1.w3-text-teal= contact.FirstName + ' ' + contact.LastName
+          div
+            table
+              tbody
+                  tr
+                    td.leftSide
+                      label
+                        b Company
+                    td.rightSide
+                      label= contact.Company
+                  tr
+                    td.leftSide
+                      label 
+                        b Number
+                    td.rightSide
+                      a(id='clickToDial' onclick="clickToDial(\'" + contact.Phone + "\')" num=contact.Phone href="#")= contact.Phone
+                  tr
+                    td.leftSide
+                      label
+                        b Email
+                    td.rightSide
+                      a(href="mailto:#{contact.Email}" class="tooltip")= contact.Email
+                        span(class="tooltiptext") Email
+//-   script.
+//-     function clickToDial(num) {
+//-         console.log('process click to dial');
+//-         document.getElementById("softphone").contentWindow.postMessage(JSON.stringify({
+//-             type: 'clickToDial',
+//-             data: { number: num, autoPlace: true }
+//-         }), "*");
+//-     }
