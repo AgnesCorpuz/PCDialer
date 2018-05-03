@@ -71,5 +71,6 @@ router.post('/addcontact', function(req, res) {
           res.redirect("contactlist");
       }
   });
+});
 
 module.exports = router;
