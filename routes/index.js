@@ -24,16 +24,22 @@ router.post('/addcontact', function(req, res) {
   var db = req.db;
 
   // Get our form values. These rely on the "name" attributes
-  var name = req.body.name;
-  var number = req.body.number;
+  var fName = req.body.fName;
+  var lName = req.body.lName;
+  var company = req.body.company;
+  var phone = req.body.phone;
+  var email = req.body.email;
 
   // Set our collection
   var collection = db.get('ContactList');
 
   // Submit to the DB
   collection.insert({
-      "name" : name,
-      "number" : number
+      "FirstName" : fName,
+      "LastName" : lName,
+      "Company" : company,
+      "Phone" : phone,
+      "Email" : email
   }, function (err, doc) {
       if (err) {
           // If it failed, return error
