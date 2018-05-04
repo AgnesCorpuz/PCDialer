@@ -73,4 +73,31 @@ router.post('/addcontact', function(req, res) {
   });
 });
 
+/* GET CallLogs page. */
+router.get('/callLogs', function(req, res) {
+    var db = req.db;
+    var collection = db.get('CallLogs');
+    collection.find({},{},function(e,docs){
+        res.render('callLogs', {
+            "callLogs" : docs
+        });
+    });
+  });
+
+/* POST to Add Call Logs Service */
+router.post('/addCallLogs', function(req, res) {
+    // Set our internal DB variable
+    var db = req.db;
+  
+    // Set our collection
+    var collection = db.get('CallLogs');
+  
+    // Submit to the DB
+    collection.insert(req.body, function (err, doc) {
+        res.send(
+          (err === null) ? { msg: '' } : { msg: err }
+        );
+    });
+  });
+
 module.exports = router;

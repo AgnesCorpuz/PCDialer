@@ -13,7 +13,7 @@ window.addEventListener("message", function(event) {
             window.location.href = "https://localhost/search/" + message.data.searchString;
             //console.log('PWAHAHA' + event.data);
         } else if(message.type == "processCallLog"){
-            //document.getElementById("processCallLogPayLoad").value = event.data;
+            addCallLogs(message.data);
         } else if(message.type == "openCallLog"){
             //document.getElementById("openCallLogPayLoad").value = event.data;
         } else if(message.type == "interactionSubscription"){
@@ -23,7 +23,6 @@ window.addEventListener("message", function(event) {
         }
     }
 });
-
 
 function clickToDial(num) {
     console.log('process click to dial');
@@ -55,4 +54,31 @@ function addTransferContext() {
         type: 'addTransferContext',
         data: JSON.parse(document.getElementById("transferContextPayload").value)
     }), "*");
+}
+
+function addCallLogs(callLogs) {
+    if((callLogs.callLog.notes).length > 0)
+    {
+        var log = {
+            "InteractionId": callLogs.interactionId.id,
+            "Name": callLogs.interactionId.name, 
+            "Number": callLogs.interactionId.phone, 
+            "ConnectedTime": callLogs.interactionId.connectedTime, 
+            "CallLogId" : callLogs.callLog.id, 
+            "Notes": callLogs.callLog.notes
+        }
+        
+        // Use AJAX to post the object to our adduser service
+        $.ajax({
+            type: "POST",
+            data: log,
+            url: "/addCallLogs",
+            dataType: "JSON"
+        }).done(function( response ) {
+            // Check for successful (blank) response
+            if (response.msg === '') {          
+              $.getJSON( '/callLogs'); 
+            }
+        });
+    }    
 }
