@@ -14,8 +14,6 @@ var monk = require('monk');
 var db = monk('localhost:27017/PCDialer');
 
 var indexRouter = require('./routes/index');
-var contactRouter = require('./routes/contact');
-var callLogRouter = require('./routes/callLog');
 
 var app = express();
 
@@ -54,10 +52,7 @@ app.use(function(req,res,next){
   next();
 });
 
-// Define routes
 app.use('/', indexRouter);
-app.use('/contact', contactRouter);
-app.use('/call-log',callLogRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
