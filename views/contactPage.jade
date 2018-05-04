@@ -29,11 +29,3 @@ block content
                     td.rightSide
                       a(href="mailto:#{contact.Email}" class="tooltip")= contact.Email
                         span(class="tooltiptext") Email
-//-   script.
-//-     function clickToDial(num) {
-//-         console.log('process click to dial');
-//-         document.getElementById("softphone").contentWindow.postMessage(JSON.stringify({
-//-             type: 'clickToDial',
-//-             data: { number: num, autoPlace: true }
-//-         }), "*");
-//-     }
