@@ -12,8 +12,10 @@ var logger = require('morgan');
 var mongo = require('mongodb');
 var monk = require('monk');
 var db = monk('localhost:27017/PCDialer');
+var platformClient = require('purecloud-platform-client-v2');
 
 var indexRouter = require('./routes/index');
+var campaignRouter = require('./routes/campaign');
 
 var app = express();
 
@@ -46,13 +48,31 @@ console.log("starting on " + httpsPort + ' (https)');
 httpServer.listen(app.get('port'));
 httpsServer.listen(httpsPort);
 
+// Make PureCloud accessible to router
+var pureCloudClient = platformClient.ApiClient.instance;
+pureCloudClient.loginClientCredentialsGrant('e2decb83-0c14-4fae-aff8-583613fa4e5b', 
+'m3mn0QPPFwY0HFbeJAeKkW9eb9IIcV-GYLtiTppBKWw')
+  .then(function() {
+    console.log("--- PureCloud Authenticated ---")
+  })
+  .catch(function(err) {
+    console.log(err);
+  });
+
 // Make our db accessible to our router
 app.use(function(req,res,next){
   req.db = db;
   next();
 });
 
+// Make PureCLoud accessible to our router
+app.use(function(req,res,next){
+  req.pureCloudClient = pureCloudClient;
+  next();
+});
+
 app.use('/', indexRouter);
+app.use('/campaigns', campaignRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

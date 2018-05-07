@@ -18,6 +18,7 @@
     "jade": "~1.11.0",
     "mongodb": "^3.0.5",
     "monk": "^6.0.5",
-    "morgan": "~1.9.0"
+    "morgan": "~1.9.0",
+    "purecloud-platform-client-v2": "^25.0.0"
   }
 }
