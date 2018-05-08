@@ -82,3 +82,67 @@ function addCallLogs(callLogs) {
         });
     }    
 }
+
+function createContactList() {
+    var contactListName = document.getElementById("contactName").value;
+    var columnName = "";
+    var columnType = "";
+
+    for(x=1; x<=6; x++){
+        columnName = document.getElementById("input" + x).value;
+        
+        if(document.getElementById("input" + x + "cell").checked) {
+            columnType = "cell";
+        } else if (document.getElementById("input" + x + "home").checked) {
+            columnType = "home";
+        }
+
+        var contactList = {
+            "ContactListId": null,
+            "ContactListName": contactListName,
+            "ColumnName": columnName,
+            "ColumnType": columnType
+        }
+
+        $.ajax({
+            type: "POST",
+            data: contactList,
+            url: "/createContactList",
+            dataType: "JSON"
+        })
+
+        columnType = "";
+    }
+
+    //$.getJSON( '/contactlist');
+    window.location.reload(true);
+}
+
+function createContact() {
+    var firstName = document.getElementById("FirstName").value;
+    var lastName = document.getElementById("LastName").value;
+    var cellPhone = document.getElementById("CellPhone").value;
+    var homePhone = document.getElementById("HomePhone").value;
+    var company = document.getElementById("Company").value;
+    var email = document.getElementById("Email").value;
+    var contactList = document.getElementById("ContactList").value;
+
+    var contact = {
+        "FirstName": firstName,
+        "LastName": lastName,
+        "CellPhone": cellPhone,
+        "HomePhone": homePhone,
+        "Company": company,
+        "Email": email,
+        "ContactList": contactList
+    }
+
+    $.ajax({
+        type: "POST",
+        data: contact,
+        url: "/addcontact",
+        dataType: "JSON"
+    })
+
+    window.location.reload(true);
+}
