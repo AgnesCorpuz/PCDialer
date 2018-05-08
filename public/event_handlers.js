@@ -114,7 +114,7 @@ function createContactList() {
             // Counter for thread safety
             postCounter++;
             console.log(postCounter);
-            if(postCounter === 5){
+            if(postCounter === 5){ 
                 window.location.reload(true);
             }
         })

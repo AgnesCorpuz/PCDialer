@@ -66,6 +66,11 @@ function pureCloudCreateContactList(req, res){
     var columnNames = [];
     var phoneColumns = [];
 
+    // Called after Purecloud returns the successfully created Contact List
+    function updateContactListID(data){
+        collection.update({'ContactListName': req.body.ContactListName}, {$set: {'ContactListId': data.id}}, {multi: true});
+    }
+
     // Find all the column entries from the db
     collection.find({'ContactListName': req.body.ContactListName}, function(e, docs){
         console.log(docs.length);
@@ -90,6 +95,7 @@ function pureCloudCreateContactList(req, res){
         outboundApi.postOutboundContactlists(body)
         .then(function(data) {
             console.log(`postOutboundContactlists success! data: ${JSON.stringify(data, null, 2)}`);
+            updateContactListID(data);
         })
         .catch(function(err) {
             console.log('There was a failure calling postOutboundContactlists');
