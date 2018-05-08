@@ -56,12 +56,8 @@ router.post('/createContactList', function(req, res) {
 });
 
 function pureCloudCreateContactList(req, res){
-    console.log('entered');
-
     var db = req.db;
     var collection = db.get('ContactList');
-
-    console.log(req.body);
 
     var columnNames = [];
     var phoneColumns = [];
@@ -73,7 +69,6 @@ function pureCloudCreateContactList(req, res){
 
     // Find all the column entries from the db
     collection.find({'ContactListName': req.body.ContactListName}, function(e, docs){
-        console.log(docs.length);
         columnNames = docs.map((entry) => entry.ColumnName);
         phoneColumns = docs.filter((entry) => entry.ColumnType ? true : false)
                            .map((entry) => { 
