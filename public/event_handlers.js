@@ -87,6 +87,7 @@ function createContactList() {
     var contactListName = document.getElementById("contactName").value;
     var columnName = "";
     var columnType = "";
+    var postCounter = 0; //workaround for tracking the finished ajax requests before starting the pureclud request
 
     for(x=1; x<=6; x++){
         columnName = document.getElementById("input" + x).value;
@@ -109,14 +110,21 @@ function createContactList() {
             data: contactList,
             url: "/createContactList",
             dataType: "JSON"
+        }).done(function(){
+            // Counter for thread safety
+            postCounter++;
+            console.log(postCounter);
+            if(postCounter === 5){
+                window.location.reload(true);
+            }
         })
 
         columnType = "";
     }
 
     //$.getJSON( '/contactlist');
-    window.location.reload(true);
 }
+
 
 function createContact() {
     var firstName = document.getElementById("FirstName").value;
