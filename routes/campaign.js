@@ -4,17 +4,25 @@ var router = express.Router();
 var platformClient = require('purecloud-platform-client-v2');
 
 router.get('/', function(req, res){
-    var usersApi = new platformClient.UsersApi();
+    var outboundApi = new platformClient.OutboundApi();
+    var routingApi = new platformClient.RoutingApi();
 
-    usersApi.getUsers({})
-    .then(function(data) {
-        console.log(`getUsers success! data: ${JSON.stringify(data, null, 2)}`);
-        res.render('campaignlist', {'users': data.entities});
-    })
-    .catch(function(err) {
-        console.log('There was a failure calling getUsers');
-        console.error(err);
-    });
+    // Data to use  for the template
+    const model =  {};
+
+    //API chain. get Queue list and contactlists list for dropdown
+    routingApi.getRoutingQueues({})
+        .then((data) => { 
+            model.queues = data.entities.map((queue) => queue.name )
+            outboundApi.getOutboundContactlists({})
+                .then((data) => { 
+                    model.contactLists = data.entities.map((contactList) => contactList.name )
+                    
+                    res.render('campaignlist', model);
+                })
+                .catch((err) => console.log(err));
+        })
+        .catch((err) => console.log(err));
 });
 
 module.exports = router;
