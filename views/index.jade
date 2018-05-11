@@ -1,24 +1,16 @@
 extends layout
 
 block content
-  title title
-  link(rel='stylesheet', href='https://www.w3schools.com/w3css/4/w3.css')
-  link(rel='stylesheet', href='https://www.w3schools.com/lib/w3-theme-black.css')
-  link(rel='stylesheet', href='https://fonts.googleapis.com/css?family=Roboto')
-  link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css')
-
-  body    
-    #myOverlay.w3-overlay.w3-hide-large(onclick='w3_close()', style='cursor:pointer', title='close side menu')
-    .w3-main(style='margin-left:250px')
-      .w3-row.w3-padding-16
-        .w3-twothird.w3-container
-          h1.w3-text-deep-orange PureCloud Dialer
-          p This is a sample project using PureCloud Embeddable Framework and PureCloud SDK. This project is written in node.js using Express and MongoDB.
-      .w3-row.w3-padding-16
-        .w3-twothird.w3-container
-          h1.w3-text-deep-orange PureCloud Embeddable Framework
-          p Different functions of the PureCloud Embeddable Framework are used in this project such as Click to Dial, Screen Pop Up and Process Call Logs.
-      .w3-row.w3-padding-16
-        .w3-twothird.w3-container
-          h1.w3-text-deep-orange PureCloud SDK
-          p This application shows how PureCloud APIs can be called from the client. Outbound APIs are used in ths project such as creating a contact list, adding contacts to a contact list and creating a campaign.
+  div#myBody
+    .w3-row.w3-padding-16
+      .w3-twothird.w3-container
+        h1.w3-text-deep-orange PureCloud Dialer
+        p This is a sample project using PureCloud Embeddable Framework and PureCloud SDK. This project is written in node.js using Express and MongoDB.
+    .w3-row.w3-padding-16
+      .w3-twothird.w3-container
+        h1.w3-text-deep-orange PureCloud Embeddable Framework
+        p Different functions of the PureCloud Embeddable Framework are used in this project such as Click to Dial, Screen Pop Up and Process Call Logs.
+    .w3-row.w3-padding-16
+      .w3-twothird.w3-container
+        h1.w3-text-deep-orange PureCloud SDK
+        p This application shows how PureCloud APIs can be called from the client. Outbound APIs are used in ths project such as creating a contact list, adding contacts to a contact list and creating a campaign.

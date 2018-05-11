@@ -3,75 +3,73 @@ html
   head
     title= title
     link(rel='stylesheet', href='/stylesheets/style.css')
-  body
-    block content
-    .softphone
-      iframe(id="softphone" allow="camera *; microphone *" src="https://apps.mypurecloud.com/crm/index.html?crm=framework-local-secure&color=darkgrey", frameborder="0")
-
     link(rel='stylesheet', href='https://www.w3schools.com/w3css/4/w3.css')
     link(rel='stylesheet', href='https://www.w3schools.com/lib/w3-theme-black.css')
     link(rel='stylesheet', href='https://fonts.googleapis.com/css?family=Roboto')
     link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css')
     
-    body
-      .w3-top
-        .w3-bar.w3-theme.w3-top.w3-left-align.w3-large
-          a.w3-bar-item.w3-button.w3-right.w3-hide-large.w3-hover-white.w3-large.w3-theme-l1(href='javascript:void(0)', onclick='w3_open()')
-            i.fa.fa-bars
-          a.w3-bar-item.w3-button.w3-theme-l1(href='/')
-            img(src="/images/genesys_monogram_detail.png", width='50' height='50' alt="genesys.png")
-          a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(href='/contactlist') Contact List
-          a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(href='/contacts') Contacts
-          a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(href='/campaigns') Campaigns
-          a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(href='#') About Us
+  body
+    .softphone
+      iframe(id="softphone" allow="camera *; microphone *" src="https://apps.mypurecloud.com/crm/index.html?crm=framework-local-secure&color=darkgrey", frameborder="0")
+
+    .w3-top
+      .w3-bar.w3-theme.w3-top.w3-left-align.w3-large
+        a.w3-bar-item.w3-button.w3-right.w3-hide-large.w3-hover-white.w3-large.w3-theme-l1(href='javascript:void(0)', onclick='w3_open()')
+          i.fa.fa-bars
+        a.w3-bar-item.w3-button.w3-theme-l1(href='/')
+          img(src="/images/genesys_monogram_detail.png", width='50' height='50' alt="genesys.png")
+        a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(href='/contactlist') Contact List
+        a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(href='/contacts') Contacts
+        a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(href='/campaigns') Campaigns
+        a.w3-bar-item.w3-button.w3-hide-small.w3-hover-white(href='#') About Us
     
-      nav#mySidebar.w3-sidebar.w3-bar-block.w3-collapse.w3-large.w3-theme-l5.w3-animate-left
-        a.w3-right.w3-xlarge.w3-padding-large.w3-hover-black.w3-hide-large(href='javascript:void(0)', onclick='w3_close()', title='Close Menu')
-          i.fa.fa-remove
-        h4.w3-bar-item
-          b Menu
-        a.w3-bar-item.w3-button.w3-hover-black(href='https://localhost/callLogs') Call Logs
-        a.w3-bar-item.w3-button.w3-hover-black(href='#') Link
-        a.w3-bar-item.w3-button.w3-hover-black(href='#') Link
-        a.w3-bar-item.w3-button.w3-hover-black(href='#') Link
+    nav#mySidebar.w3-sidebar.w3-bar-block.w3-collapse.w3-large.w3-theme-l5.w3-animate-left
+      a.w3-right.w3-xlarge.w3-padding-large.w3-hover-black.w3-hide-large(href='javascript:void(0)', onclick='w3_close()', title='Close Menu')
+        i.fa.fa-remove
+      h4.w3-bar-item
+        b Menu
+      a.w3-bar-item.w3-button.w3-hover-black(href='https://localhost/callLogs') Call Logs
+      a.w3-bar-item.w3-button.w3-hover-black(href='#') Link
+      a.w3-bar-item.w3-button.w3-hover-black(href='#') Link
+      a.w3-bar-item.w3-button.w3-hover-black(href='#') Link
     
-      #myOverlay.w3-overlay.w3-hide-large(onclick='w3_close()', style='cursor:pointer', title='close side menu')
-      .w3-main(style='margin-left:250px')      
-        footer#myFooter
-          #myOverlay.w3-overlay.w3-hide-large(onclick='w3_close()', style='cursor:pointer', title='close side menu')
-          .w3-main(style='margin-left:250px')
-            .w3-center
-              .w3-bar
-                a.w3-button.w3-black(href='#') 1
-                a.w3-button.w3-hover-black(href='#') 2
-                a.w3-button.w3-hover-black(href='#') 3
-                a.w3-button.w3-hover-black(href='#') 4
-                a.w3-button.w3-hover-black(href='#') 5
-                a.w3-button.w3-hover-black(href='#') »
-          .w3-container.w3-theme-l2
-            h4(style='text-align:center') PureCloud Dialer
-          .w3-container.w3-theme-l1
-            p(style='text-align:center') Genesys Development Support
+    #myOverlay.w3-overlay.w3-hide-large(onclick='w3_close()', style='cursor:pointer', title='close side menu')
+    .w3-main(style='margin-left:250px')
+      block content
+
+  footer#myFooter
+    .w3-center
+      .w3-bar
+        a.w3-button.w3-black(href='#') 1
+        a.w3-button.w3-hover-black(href='#') 2
+        a.w3-button.w3-hover-black(href='#') 3
+        a.w3-button.w3-hover-black(href='#') 4
+        a.w3-button.w3-hover-black(href='#') 5
+        a.w3-button.w3-hover-black(href='#') »
+    .w3-container.w3-theme-l2
+      p(style='text-align:center; margin: 0px') PureCloud Dialer
+    .w3-container.w3-theme-l1
+      p(style='text-align:center; margin: 0px') Genesys DevFoundry
       
-      script(src='https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js')
-      script(src="event_handlers.js")
-      script.
-        // Get the Sidebar
-        var mySidebar = document.getElementById("mySidebar");
-        // Get the DIV with overlay effect
-        var overlayBg = document.getElementById("myOverlay");
-        // Toggle between showing and hiding the sidebar, and add overlay effect
-        function w3_open() {
-          if (mySidebar.style.display === 'block') {
-            mySidebar.style.display = 'none';
-            overlayBg.style.display = "none";
-          } else {
-            mySidebar.style.display = 'block';
-            overlayBg.style.display = "block";
-          }
-        }
-        // Close the sidebar with the close button
-        function w3_close() {
-          mySidebar.style.display = "none";
+    script(src='https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js')
+    script(src="event_handlers.js")
+    script.
+      // Get the Sidebar
+      var mySidebar = document.getElementById("mySidebar");
+      // Get the DIV with overlay effect
+      var overlayBg = document.getElementById("myOverlay");
+      // Toggle between showing and hiding the sidebar, and add overlay effect
+      function w3_open() {
+        if (mySidebar.style.display === 'block') {
+          mySidebar.style.display = 'none';
           overlayBg.style.display = "none";
+        } else {
+          mySidebar.style.display = 'block';
+          overlayBg.style.display = "block";
         }
+      }
+      // Close the sidebar with the close button
+      function w3_close() {
+        mySidebar.style.display = "none";
+        overlayBg.style.display = "none";
+      }

@@ -1,34 +1,32 @@
 extends layout
 
 block content
-  body
-    #myOverlay.w3-overlay.w3-hide-large(onclick='w3_close()', style='cursor:pointer', title='close side menu')
-    .w3-main(style='margin-left:250px')
-      .w3-row.w3-padding-16
-        .w3-twothird.w3-container
-          h1.w3-text-deep-orange Contacts
-          div
-            table
-              thead
-                tr: th Name
-                  th Company
-                  th Home Phone
-                  th Cell Phone
-                  th Email
-                  th Contact List
-              tbody
-                each contact in contacts
-                  tr
-                    td
-                      label= contact.LastName + ", " + contact.FirstName
-                    td
-                      label= contact.Company
-                    td
-                      a(id='clickToDial' onclick="clickToDial(\'" + contact.HomePhone + "\')" num=contact.Phone href="#")= contact.HomePhone
-                    td
-                      a(id='clickToDial' onclick="clickToDial(\'" + contact.CellPhone + "\')" num=contact.Phone href="#")= contact.CellPhone
-                    td
-                      a(href="mailto:#{contact.Email}" class="tooltip")= contact.Email
-                        span(class="tooltiptext") Email
-                    td
-                      a(href="../contact/"+contact.ContactList)= contact.ContactList
+  div#myBody
+    .w3-row.w3-padding-16
+      .w3-twothird.w3-container
+        h1.w3-text-deep-orange Contacts
+        div
+          table
+            thead
+              tr: th Name
+                th Company
+                th Home Phone
+                th Cell Phone
+                th Email
+                th Contact List
+            tbody
+              each contact in contacts
+                tr
+                  td
+                    label= contact.LastName + ", " + contact.FirstName
+                  td
+                    label= contact.Company
+                  td
+                    a(id='clickToDial' onclick="clickToDial(\'" + contact.HomePhone + "\')" num=contact.Phone href="#")= contact.HomePhone
+                  td
+                    a(id='clickToDial' onclick="clickToDial(\'" + contact.CellPhone + "\')" num=contact.Phone href="#")= contact.CellPhone
+                  td
+                    a(href="mailto:#{contact.Email}" class="tooltip")= contact.Email
+                      span(class="tooltiptext") Email
+                  td
+                    a(href="../contact/"+contact.ContactList)= contact.ContactList
