@@ -31,7 +31,18 @@ router.get('/contactlist', function(req, res) {
     });
 });
 
-var postCounter = 0; // Closure workaround for thread safety
+/* GET Upload Contact List page. */
+router.get('/contactListUpload', function(req, res) {
+    var db = req.db;
+    db.get('ContactList').aggregate([
+            {"$group" : {_id : {ContactListName:"$ContactListName", ContactListId:"$ContactListId"}}}
+        ],function(e,docs){
+            res.render('contactListUpload', {
+                "contactlist" : docs         
+            });
+    });
+});
+
 /* POST to Add Contact List Service */
 router.post('/createContactList', function(req, res) {
     // Set our internal DB variable
@@ -42,16 +53,7 @@ router.post('/createContactList', function(req, res) {
 
     // Submit to the DB
     collection.insert(req.body, function (err, doc) {
-        
-        // Once all 6 columns are created, it is now safe to Call the PureCloud API
-        postCounter++;
-        if(postCounter === 6){
-            pureCloudCreateContactList(req, res);
-            postCounter = 0;
-        }else{
-            console.log('nope');
-            res.send((err === null) ? { msg: '' } : { msg: err });
-        }
+        pureCloudCreateContactList(req, res);
     });
 });
 
@@ -61,6 +63,8 @@ function pureCloudCreateContactList(req, res){
 
     var columnNames = [];
     var phoneColumns = [];
+    var phoneType = [];
+    var phoneTypes = [];
 
     // Called after Purecloud returns the successfully created Contact List
     function updateContactListID(data){
@@ -69,28 +73,29 @@ function pureCloudCreateContactList(req, res){
 
     // Find all the column entries from the db
     collection.find({'ContactListName': req.body.ContactListName}, function(e, docs){
-        columnNames = docs.map((entry) => entry.ColumnName);
-        phoneColumns = docs.filter((entry) => entry.ColumnType ? true : false)
-                           .map((entry) => { 
-                               var obj = {};
-                               obj.columnName =  entry.ColumnName;
-                               obj.type = entry.ColumnType;
+        columnNames = (docs.map((entry) => entry.ColumnName)).toString().split(",");
+        phoneColumns = (docs.map((entry) => entry.ColumnType)).toString().split(",");      
+        while(phoneColumns.length) phoneType.push(phoneColumns.splice(0,2));
 
-                               return obj;
-                            });
+        phoneType.forEach(function (item){
+            var obj = {};
+            obj.columnName = item[0];
+            obj.type = item[1];
+            phoneTypes.push(obj);
+        });
 
         //Add contactlist to PureCloud
         var outboundApi = new platformClient.OutboundApi();
         var body = {
             'name': req.body.ContactListName,
             'columnNames': columnNames, 
-            'phoneColumns': phoneColumns
+            'phoneColumns': phoneTypes
         };
 
         outboundApi.postOutboundContactlists(body)
         .then(function(data) {
             console.log(`postOutboundContactlists success! data: ${JSON.stringify(data, null, 2)}`);
-            updateContactListID(data);
+            updateContactListID(data);         
         })
         .catch(function(err) {
             console.log('There was a failure calling postOutboundContactlists');

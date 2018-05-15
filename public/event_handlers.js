@@ -85,46 +85,63 @@ function addCallLogs(callLogs) {
 
 function createContactList() {
     var contactListName = document.getElementById("contactName").value;
-    var columnName = "";
-    var columnType = "";
-    var postCounter = 0; //workaround for tracking the finished ajax requests before starting the pureclud request
+    var len = document.getElementById("InputTable").rows.length;
+    var colsArray = [];
+    var colTypeArray = [];
 
-    for(x=1; x<=6; x++){
-        columnName = document.getElementById("input" + x).value;
-        
-        if(document.getElementById("input" + x + "cell").checked) {
-            columnType = "cell";
-        } else if (document.getElementById("input" + x + "home").checked) {
-            columnType = "home";
-        }
-
-        var contactList = {
-            "ContactListId": null,
-            "ContactListName": contactListName,
-            "ColumnName": columnName,
-            "ColumnType": columnType
-        }
-
-        $.ajax({
-            type: "POST",
-            data: contactList,
-            url: "/createContactList",
-            dataType: "JSON"
-        }).done(function(){
-            // Counter for thread safety
-            postCounter++;
-            console.log(postCounter);
-            if(postCounter === 5){ 
-                window.location.reload(true);
-            }
-        })
-
-        columnType = "";
+    var table = document.getElementById("InputTable");
+    for (var i = 1, row; row = table.rows[i]; i++) {
+        for (var j = 0, col; col = row.cells[j]; j++) {
+            if(j == 0) {
+                colsArray.push(table.rows[i].cells[j].children[0].value);
+            } else if (j == 1) {
+                if(table.rows[i].cells[j].children[0].checked) {
+                    colTypeArray.push([table.rows[i].cells[0].children[0].value, "cell"]);
+                }
+            } else if (j == 2) {
+                if(table.rows[i].cells[j].children[0].checked) {
+                    colTypeArray.push([table.rows[i].cells[0].children[0].value, "home"]);
+                }
+            }       
+        }  
     }
 
-    //$.getJSON( '/contactlist');
+    var contactList = {
+        "ContactListId": null,
+        "ContactListName": contactListName,
+        "ColumnName": colsArray.toString(),
+        "ColumnType": colTypeArray.toString()
+    }
+
+    $.ajax({
+        type: "POST",
+        data: contactList,
+        url: "/createContactList",
+        dataType: "JSON"
+    }).done(function(){
+        window.location.reload(true);
+    })
 }
 
+function insRow() {
+    var tableRef = document.getElementById('InputTable').getElementsByTagName('tbody')[0];    
+    var newRow  = tableRef.insertRow(tableRef.rows.length); 
+
+    var cell0 = newRow.insertCell(0);
+    var in0 = document.createElement("input");
+    in0.setAttribute("type", "text");
+    cell0.appendChild(in0);
+
+    var cell1 = newRow.insertCell(1);
+    var in1 = document.createElement("input");
+    in1.setAttribute("type", "checkbox");
+    cell1.appendChild(in1);
+
+    var cell2 = newRow.insertCell(2);
+    var in2 = document.createElement("input");
+    in2.setAttribute("type", "checkbox");
+    cell2.appendChild(in2);
+  }
 
 function createContact() {
     var firstName = document.getElementById("FirstName").value;

@@ -2,7 +2,7 @@ extends layout
 
 block content
   div#myBody
-    .w3-row.w3-padding-16
+    .w3-row.w3-padding-small
       .w3-twothird.w3-container
         h1.w3-text-deep-orange Create Contact List
         div(style="display: inline-block; margin: 5px; width: 800px")
@@ -13,57 +13,22 @@ block content
             div(style="display: inline-block; vertical-align: top")
               label= "Column Names: "
             div(style="display: inline-block; margin-left: 35px")
-              table
-                thead
-                  tr: th Column Name
-                    th Cell
-                    th Home
-                tbody
-                  tr
-                    td
-                      input#input1(type="text", placeholder="Column Name")
-                    td
-                      input#input1cell(type="checkbox")
-                    td
-                      input#input1home(type="checkbox")
-                  tr
-                    td
-                      input#input2(type="text", placeholder="Column Name")
-                    td
-                      input#input2cell(type="checkbox")
-                    td
-                      input#input2home(type="checkbox")
-                  tr
-                    td
-                      input#input3(type="text", placeholder="Column Name")
-                    td
-                      input#input3cell(type="checkbox")
-                    td
-                      input#input3home(type="checkbox")
-                  tr
-                    td
-                      input#input4(type="text", placeholder="Column Name")
-                    td
-                      input#input4cell(type="checkbox")
-                    td
-                      input#input4home(type="checkbox")
-                  tr
-                    td
-                      input#input5(type="text", placeholder="Column Name")
-                    td
-                      input#input5cell(type="checkbox")
-                    td
-                      input#input5home(type="checkbox")
-                  tr
-                    td
-                      input#input6(type="text", placeholder="Column Name")
-                    td
-                      input#input6cell(type="checkbox")
-                    td
-                      input#input6home(type="checkbox")
-            div
-              button#btnSubmit(onclick="createContactList()", style="margin: 5px; margin-left: 380px") Add
-    .w3-row.w3-padding-16
+              table#InputTable
+                tr
+                  td Column Name
+                  td Cell
+                  td Home
+                tr
+                  td
+                    input#input0(type="text", placeholder="Column Name")
+                  td
+                    input#inputCell0(type="checkbox")
+                  td
+                    input#inputHome0(type="checkbox")
+            div(style="display: inline-block")
+              button#btnAdd(onclick="insRow()", style="margin: 5px; margin-left: 155px") Add Row
+              button#btnSave(onclick="createContactList()", style="margin: 5px; margin-left: 125px") Save
+    .w3-row.w3-padding-small
       .w3-twothird.w3-container
         h1.w3-text-deep-orange Contact List
         div
