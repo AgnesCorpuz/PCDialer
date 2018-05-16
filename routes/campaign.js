@@ -4,25 +4,105 @@ var router = express.Router();
 var platformClient = require('purecloud-platform-client-v2');
 
 router.get('/', function(req, res){
+    var db = req.db
     var outboundApi = new platformClient.OutboundApi();
     var routingApi = new platformClient.RoutingApi();
 
     // Data to use  for the template
     const model =  {};
 
-    //API chain. get Queue list and contactlists list for dropdown
+    //API chain. 
+    //get Queue list and contactlists list for dropdown
     routingApi.getRoutingQueues({})
-        .then((data) => { 
-            model.queues = data.entities.map((queue) => queue.name )
-            outboundApi.getOutboundContactlists({})
-                .then((data) => { 
-                    model.contactLists = data.entities.map((contactList) => contactList.name )
-                    
-                    res.render('campaignlist', model);
-                })
-                .catch((err) => console.log(err));
-        })
-        .catch((err) => console.log(err));
+    .then((data) => { 
+        model.queues = data.entities.map((queue) => ({
+                'name': queue.name,
+                'id': queue.id
+            }));
+
+        // Get contact lists from db
+        db.get('ContactList').find({},function(e,docs){
+            model.contactLists = docs;
+            getCampaignList();
+        });   
+    })
+    .catch((err) => console.log(err));
+
+    // Get campaign list from db
+    function getCampaignList(){
+        db.get('CampaignList').find({}, function(e, docs){
+            model.campaignList = docs;
+            renderPage();
+        });
+    }
+
+    // Rendder the page
+    function renderPage(){
+        res.render('campaignlist', model);
+    }
 });
+
+router.post('/', function(req, res){
+    var db = req.db;
+    var collection = db.get('CampaignList');
+    var outboundApi = new platformClient.OutboundApi();
+
+    // Insert to the db then call PureCloud function
+    collection.insert(req.body, createNewCampaignPureCloud);
+
+    function createNewCampaignPureCloud(){
+        outboundApi.getOutboundContactlist(req.body.contactList, {})
+        .then(function(data) {
+            var createNewCampaignBody = {
+                "name": req.body.campaignName,
+                "contactList": {
+                "id": req.body.contactList
+                },
+                "queue": {
+                "id": req.body.outBoundQueue
+                },
+                "script": {
+                    "id": "d01f4329-9585-4527-8d3c-6f5cde854c64"
+                },
+                "dialingMode": "preview",
+                "campaignStatus": "off",
+                "phoneColumns": data.phoneColumns,
+                "callerName": req.body.callerName,
+                "callerAddress": req.body.callerAddress,
+                "ruleSets": [],
+                "skipPreviewDisabled": true,
+                "previewTimeOutSeconds": 0,
+                "alwaysRunning": false,
+                "noAnswerTimeout": 30,
+                "contactListFilters": []
+            };    
+    
+            outboundApi.postOutboundCampaigns(createNewCampaignBody)
+            .then(updateCampaignId)
+            .catch(errorHandler);})
+        .catch(errorHandler);
+    }
+
+    function errorHandler(err){
+        // Very simple error handler
+        console.error(err);
+    }
+
+    function updateCampaignId(data){
+        collection.update(
+                {'campaignName': req.body.campaignName}, 
+                {$set: {'campaignId': data.id}}, 
+                {multi: true}
+            );
+        redirectToCampaigns();
+    }
+
+    function redirectToCampaigns(){
+        // Redirect to the campaigns page
+        return res.redirect('/campaigns');
+    }
+});
+
+
 
 module.exports = router;

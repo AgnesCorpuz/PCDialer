@@ -5,41 +5,54 @@ block content
     .w3-row.w3-padding-16
       .w3-twothird.w3-container
         h1.w3-text-deep-orange Create Campaign
-        div(style="display: inline-block; margin: 5px; width: 800px")
-          div
-            label= "Campaign Name: "
-            input#campaignName(type="text", placeholder="Campaign Name", style="margin: 5px")
-          div
-            label= "Contact List: "
-            select#contactList
-              each contactList, i in contactLists
-                option= contactList
-          div
-            label= "Queue"
-            select#outBoundQueue
-              each queue, i in queues
-                option= queue
-          div
-            label= "Caller Name: "
-            input#callerName(type="text", placeholder="Caller Name", style="margin: 5px")
-          div
-            label= "Caller Address: "
-            input#callerAddress(type="text", placeholder="Caller Address", style="margin: 5px")
-          div
-            button#btnSubmit(onclick="createCampaign()", style="margin: 5px; margin-left: 380px") Add
+        form#newCampaignForm(method="post" )
+          div(style="display: inline-block; margin: 5px; width: 800px")
+            div
+              label= "Campaign Name: "
+              input#campaignName(name="campaignName" type="text", placeholder="Campaign Name", style="margin: 5px")
+            div
+              label= "Contact List: "
+              select#contactList(name="contactList")
+                each contactList, i in contactLists
+                  option(value=contactList.ContactListId)= contactList.ContactListName
+            div
+              label= "Queue"
+              select#outBoundQueue(name="outBoundQueue")
+                each queue, i in queues
+                  option(value=queue.id)= queue.name
+            div
+              label= "Caller Name: "
+              input#callerName(name="callerName" type="text", placeholder="Caller Name", style="margin: 5px")
+            div
+              label= "Caller Address: "
+              input#callerAddress(name="callerAddress" type="text", placeholder="Caller Address", style="margin: 5px")
+            div
+              button#btnSubmit(type="submit" style="margin: 5px; margin-left: 380px") Add
     .w3-row.w3-padding-16
       .w3-twothird.w3-container
         h1.w3-text-deep-orange Campaign List
-        //- div
-        //-   table
-        //-     thead
-        //-       tr: th(style="display: none") _id
-        //-         th Name
-        //-         th Contact List Id
-        //-     tbody
-        //-       each contact, i in contactlist
-        //-         tr
-        //-           td
-        //-             a(href="../contact/"+contact._id.ContactListName)= contact._id.ContactListName
-        //-           td
-        //-             label= contact._id.ContactListId
+        div
+          table
+            thead
+              tr: th(style="display: none") _id
+                th Name
+                th Campaign ID
+                th Contact List
+                th Queue
+                th Caller Name
+                th Caller Address
+            tbody
+              each campaign, i in campaignList
+                tr
+                  td
+                    label= campaign.campaignName
+                  td
+                    label= campaign.campaignId
+                  td
+                    label= campaign.contactList
+                  td
+                    label= campaign.outBoundQueue
+                  td
+                    label= campaign.callerName
+                  td
+                    label= campaign.callerAddress
