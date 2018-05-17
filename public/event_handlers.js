@@ -143,31 +143,32 @@ function insRow() {
     cell2.appendChild(in2);
   }
 
-function createContact() {
-    var firstName = document.getElementById("FirstName").value;
-    var lastName = document.getElementById("LastName").value;
-    var cellPhone = document.getElementById("CellPhone").value;
-    var homePhone = document.getElementById("HomePhone").value;
-    var company = document.getElementById("Company").value;
-    var email = document.getElementById("Email").value;
-    var contactList = document.getElementById("ContactList").value;
-
-    var contact = {
-        "FirstName": firstName,
-        "LastName": lastName,
-        "CellPhone": cellPhone,
-        "HomePhone": homePhone,
-        "Company": company,
-        "Email": email,
-        "ContactList": contactList
-    }
+function createContact(contactListName) {
+    var contact = {};
 
     $.ajax({
-        type: "POST",
-        data: contact,
-        url: "/addcontact",
-        dataType: "JSON"
-    })
+        type: "GET",
+        url: "/contacts/" + contactListName,
+        success:function(response){
+            var list = response.list;
+            var ColumnName = (list.map((entry) => entry.ColumnName)).toString().split(",")
+            var col;
 
-    window.location.reload(true);
+            for(var column in ColumnName) {
+                col = ColumnName[column].replace(/\s+/g, '');
+                contact[ColumnName[column]] = document.getElementById(col).value;
+            }
+
+            contact["ContactList"] = contactListName;
+
+            $.ajax({
+                type: "POST",
+                data: contact,
+                url: "/addcontact",
+                dataType: "JSON"
+            })
+
+            window.location.reload(true);
+        }
+    })
 }

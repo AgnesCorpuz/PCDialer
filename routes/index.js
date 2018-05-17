@@ -12,9 +12,22 @@ router.get('/', function(req, res, next) {
 router.get('/contact/:id', function(req, res){
     var db = req.db;
     db.get('Contacts').find({'ContactList': req.params.id}, function(e, docs){
-        res.render('contactPage', {
-            'contact' : docs,
-            'page' : req.params.id
+        db.get('ContactList').find({'ContactListName': req.params.id}, function(e, list){
+            res.render('contactPage', {
+                'contact' : docs,
+                'page' : req.params.id,
+                'columns': (list.map((entry) => entry.ColumnName)).toString().split(",")
+            });
+        });
+    }); 
+});
+
+/* GET Contacts. */
+router.get('/contacts/:id', function(req, res){
+    var db = req.db;
+    db.get('Contacts').find({'ContactList': req.params.id}, function(e, docs){
+        db.get('ContactList').find({'ContactListName': req.params.id}, function(e, list){
+            res.send({list: list});
         });
     }); 
 });
@@ -26,18 +39,6 @@ router.get('/contactlist', function(req, res) {
             {"$group" : {_id : {ContactListName:"$ContactListName", ContactListId:"$ContactListId"}}}
         ],function(e,docs){
             res.render('contactlist', {
-                "contactlist" : docs         
-            });
-    });
-});
-
-/* GET Upload Contact List page. */
-router.get('/contactListUpload', function(req, res) {
-    var db = req.db;
-    db.get('ContactList').aggregate([
-            {"$group" : {_id : {ContactListName:"$ContactListName", ContactListId:"$ContactListId"}}}
-        ],function(e,docs){
-            res.render('contactListUpload', {
                 "contactlist" : docs         
             });
     });
@@ -68,7 +69,12 @@ function pureCloudCreateContactList(req, res){
 
     // Called after Purecloud returns the successfully created Contact List
     function updateContactListID(data){
-        collection.update({'ContactListName': req.body.ContactListName}, {$set: {'ContactListId': data.id}}, {multi: true});
+        collection.update({'ContactListName': req.body.ContactListName}, {$set: {'ContactListId': data.id}}, {multi: true},
+        function (err, doc) {
+            res.send(
+                (err === null) ? { msg: '' } : { msg: err }
+            );
+        });
     }
 
     // Find all the column entries from the db
@@ -104,10 +110,6 @@ function pureCloudCreateContactList(req, res){
     }); 
 }
 
-// router.post('/createContactList/PureCloud', function(req, res) {
-    
-// });
-
 /* GET Contact via URL search. */
 router.get('/search/:query', function(req, res){
     var db = req.db;
@@ -126,15 +128,51 @@ router.post('/addcontact', function(req, res) {
     // Set our collection
     var collection = db.get('Contacts');
 
+    var addContact = {};
+    var col;
+
+    for(var propName in req.body) {
+        var propValue = req.body[propName];
+        col = propName.replace(/\s+/g, '');
+        addContact[col] = propValue;
+    }
+
     // Submit to the DB
-    collection.insert(req.body, function (err, doc) {
-        res.send(
-            (err === null) ? { msg: '' } : { msg: err }
-        );
+    collection.insert(addContact, function (err, doc) {
+        pureCloudAddContact(req, res);
     });
 });
 
-/* GET ontacts page. */
+function pureCloudAddContact(req, res){
+    var db = req.db;
+    var collection = db.get('ContactList');
+
+    // Find all the column entries from the db
+    collection.find({'ContactListName': req.body.ContactList}, function(e, docs){
+        var contactListId = docs[0].ContactListId;
+        var contactListName = docs[0].ContactListName;
+        delete req.body.ContactList;
+
+        //Add contact to contactlist in PureCloud
+        var outboundApi = new platformClient.OutboundApi();        
+        var body = [{
+            'name': contactListName,
+            'contactListId': contactListId, 
+            'data': req.body
+        }];
+
+        outboundApi.postOutboundContactlistContacts(contactListId, body)
+        .then(function(data) {
+            console.log(`postOutboundContactlistContacts success! data: ${JSON.stringify(data, null, 2)}`);
+        })
+        .catch(function(err) {
+            console.log('There was a failure calling postOutboundContactlistContacts');
+            console.error(err);
+        });
+    }); 
+}
+
+/* GET Contacts page. */
 router.get('/contacts', function(req, res) {
     var db = req.db;
     var collection = db.get('Contacts');
