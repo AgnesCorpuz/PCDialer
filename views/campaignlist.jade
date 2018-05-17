@@ -2,32 +2,33 @@ extends layout
 
 block content
   div#myBody
+    link(rel='stylesheet', href='/stylesheets/style.css')
     .w3-row.w3-padding-16
       .w3-twothird.w3-container
         h1.w3-text-deep-orange Create Campaign
         form#newCampaignForm(method="post" )
-          div(style="display: inline-block; margin: 5px; width: 800px")
-            div
+          div
+            div.block
               label= "Campaign Name: "
               input#campaignName(name="campaignName" type="text", placeholder="Campaign Name", style="margin: 5px")
-            div
+            div.block
               label= "Contact List: "
-              select#contactList(name="contactList")
+              select#contactList(name="contactList", style="margin: 5px; width: 180px")
                 each contactList, i in contactLists
                   option(value=contactList.ContactListId)= contactList.ContactListName
-            div
-              label= "Queue"
-              select#outBoundQueue(name="outBoundQueue")
+            div.block
+              label= "Queue: "
+              select#outBoundQueue(name="outBoundQueue", style="margin: 5px; width: 180px")
                 each queue, i in queues
                   option(value=queue.id)= queue.name
-            div
+            div.block
               label= "Caller Name: "
               input#callerName(name="callerName" type="text", placeholder="Caller Name", style="margin: 5px")
-            div
+            div.block
               label= "Caller Address: "
               input#callerAddress(name="callerAddress" type="text", placeholder="Caller Address", style="margin: 5px")
-            div
-              button#btnSubmit(type="submit" style="margin: 5px; margin-left: 380px") Add
+            div.block
+              button#btnSubmit(type="submit" style="margin: 5px; margin-left: 275px") Add
     .w3-row.w3-padding-16
       .w3-twothird.w3-container
         h1.w3-text-deep-orange Campaign List
