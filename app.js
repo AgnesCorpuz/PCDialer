@@ -17,6 +17,7 @@ var platformClient = require('purecloud-platform-client-v2');
 
 var indexRouter = require('./routes/index');
 var campaignRouter = require('./routes/campaign');
+var credentials = require('./config')
 
 var app = express();
 
@@ -51,8 +52,7 @@ httpsServer.listen(httpsPort);
 
 // Make PureCloud accessible to router
 var pureCloudClient = platformClient.ApiClient.instance;
-pureCloudClient.loginClientCredentialsGrant('e2decb83-0c14-4fae-aff8-583613fa4e5b', 
-'m3mn0QPPFwY0HFbeJAeKkW9eb9IIcV-GYLtiTppBKWw')
+pureCloudClient.loginClientCredentialsGrant(credentials.clientId, credentials.clientSecret)
   .then(function() {
     console.log("--- PureCloud Authenticated ---")
   })
