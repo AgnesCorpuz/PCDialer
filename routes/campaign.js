@@ -32,8 +32,32 @@ router.get('/', function(req, res){
     function getCampaignList(){
         db.get('CampaignList').find({}, function(e, docs){
             model.campaignList = docs;
-            renderPage();
+            getCampaignProgress();
         });
+    }
+
+    // Get campaign progress from PureCLoud
+    function getCampaignProgress(){
+        var campaignIdsList = model.campaignList
+                            .filter((campaign) => campaign.campaignId)
+                            .map((campaign) => campaign.campaignId)
+        outboundApi.postOutboundCampaignsProgress(campaignIdsList)
+        .then(function(data){
+            model.campaignList.forEach((campaign) => {
+                for(let i = 0; i < data.length; i++){
+                    if(data[i].campaign.id === campaign.campaignId){
+                        campaign.progress = data[i].percentage;
+                    }
+                }
+            });
+            
+            console.log(model.campaignList);
+            renderPage();
+        })
+        .catch(function(err) {
+            console.error(err);
+        });
+        
     }
 
     // Rendder the page

@@ -42,6 +42,7 @@ block content
                 th Queue
                 th Caller Name
                 th Caller Address
+                th Progress (%)
             tbody
               each campaign, i in campaignList
                 tr
@@ -57,3 +58,5 @@ block content
                     label= campaign.callerName
                   td
                     label= campaign.callerAddress
+                  td 
+                    label= campaign.progress
