@@ -2,7 +2,7 @@
 
 ### What is this repository for? ###
 
-* This is a sample project using PureCloud Embeddable Framework and PureCloud SDK. This project is written in Node JS using Express and Mongo DB as the database.
+This is a sample project using PureCloud Embeddable Framework and PureCloud SDK. This project is written in Node JS using Express and Mongo DB as the database.
 
 ### PureCloud Embeddable Framework ###
 
@@ -19,11 +19,11 @@ For details on how to integrate with [PureCloud SDK](https://developer.mypureclo
 There are two ways of using the Javascript SDK for web app:
 
 1. Client-Side Usage
-* Local file or CDN reference
-* Uses Implicit Grant Authentication
+  * Local file or CDN reference
+  * Uses Implicit Grant Authentication
 2. Server-Side Usage
-* Uses NodeJS
-* Uses Client Credentials Authentication
+  * Uses NodeJS
+  * Uses Client Credentials Authentication
 
 This demo uses NodeJS and Client Credentials for Authentication.
 
@@ -32,8 +32,7 @@ This demo uses NodeJS and Client Credentials for Authentication.
 These are the functionalities that directly make calls to the PureCloud API for Outbound Dialing:
 1. Creation of Contact List ([/api/v2/outbound/contactlist](https://developer.mypurecloud.com/api/rest/v2/outbound/index.html#postOutboundContactlists)) 
 2. Adding Contacts to the Contact List ([/api/v2/outbound/contactlists/{contactListId}](https://developer.mypurecloud.com/api/rest/v2/outbound/index.html#putOutboundContactlistsContactlistId))
-3. Creation of Campaign ([/api/v2/outbound/campaigns](https://developer.mypurecloud.com/api/rest/v2/outbound/index.html#postOutboundCampaigns)) 
-* For the creation of the Campaign it’s also required to pull up the Queues and the Contact Lists from the org.
+3. Creation of Campaign ([/api/v2/outbound/campaigns](https://developer.mypurecloud.com/api/rest/v2/outbound/index.html#postOutboundCampaigns)) - For the creation of the Campaign it’s also required to pull up the Queues and the Contact Lists from the org.
 4. Getting Progress of Campaign ([/api/v2/outbound/campaigns/{campaignId}/progress](https://developer.mypurecloud.com/api/rest/v2/outbound/index.html#getOutboundCampaignsCampaignIdProgress))
 
 #### Testing API Calls ####
