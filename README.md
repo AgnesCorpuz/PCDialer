@@ -19,11 +19,11 @@ For details on how to integrate with [PureCloud SDK](https://developer.mypureclo
 There are two ways of using the Javascript SDK for web app:
 
 1. Client-Side Usage
-  * Local file or CDN reference
-  * Uses Implicit Grant Authentication
+	* Local file or CDN reference
+	* Uses Implicit Grant Authentication
 2. Server-Side Usage
-  * Uses NodeJS
-  * Uses Client Credentials Authentication
+	* Uses NodeJS
+	* Uses Client Credentials Authentication
 
 This demo uses NodeJS and Client Credentials for Authentication.
 
@@ -66,11 +66,26 @@ Open another Instance of Command Prompt and run:
 Update framework.js file:
 ```
 Copy and paste the Client ID (Implicit Grant) depending on the location to be used by the embedded agent interface.
+
+window.Framework = {
+    config: {
+        name:"testApp",
+        clientIds: {
+            'mypurecloud.com': '',
+            'mypurecloud.ie': '',
+            'mypurecloud.com.au': '',
+            'mypurecloud.jp': ''
+        },
 ```
 
 Update config.js file:
 ```
 Copy and paste the Client ID and Secret (Client Credentials) to be used by the Platform API SDK.
+
+module.exports = {
+    "clientId" : "",
+    "clientSecret" : ""
+}
 ```
 
 #### Viewing the page locally ####
