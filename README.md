@@ -47,7 +47,8 @@ You will need the following things properly installed on your computer.
 
 * [Git](https://git-scm.com/)
 * [Node.js](https://nodejs.org/) (with NPM)
-* [Purecloud OAuth Client Id](https://developer.mypurecloud.com/api/rest/authorization/use-implicit-grant.html) (Implicit Grant)
+* [Purecloud OAuth Client Id](https://developer.mypurecloud.com/api/rest/authorization/use-implicit-grant.html) (Implicit Grant) – This will be used by Embedded Framework
+* [PureCloud OAuth Client ID (Client Credentials)](https://developer.mypurecloud.com/api/rest/authorization/use-client-credentials.html) – This will be used by Platform API SDK
 * [MongoDB](http://mongodb.com/)
 
 ##### Development Machine Set Up #####
@@ -61,6 +62,12 @@ Open another Instance of Command Prompt and run:
 ```
 "C:\Program Files\MongoDB\Server\3.6\bin\mongo.exe"
 ```
+
+Update framework.js file:
+Copy and paste the Client ID (Implicit Grant) depending on the location to be used by the embedded agent interface.
+
+Update config.js file:
+Copy and paste the Client ID and Secret (Client Credentials) to be used by the Platform API SDK.
 
 #### Viewing the page locally ####
 Open Command Prompt to C:\...\PCDialer:
