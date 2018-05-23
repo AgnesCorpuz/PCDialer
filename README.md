@@ -78,7 +78,7 @@ window.Framework = {
         },
 ```
 
-Add config.js file at root folder:
+Update config.js file:
 ```
 Copy and paste the Client ID and Secret (Client Credentials) to be used by the Platform API SDK.
 
