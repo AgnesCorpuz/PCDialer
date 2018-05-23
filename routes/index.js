@@ -22,6 +22,17 @@ router.get('/contact/:id', function(req, res){
     }); 
 });
 
+/* Actual Contact Page for a single contact */
+router.get('/contactinfo/:id', function(req, res){
+    var db = req.db;
+    var o_id = new ObjectId(req.params.id);
+    db.get('Contacts').find({'_id': o_id}, function(e, docs){
+        res.render('singleContactPage', {
+           'contact' : docs[0] 
+        });
+    });
+});
+
 /* GET Contacts. */
 router.get('/contacts/:id', function(req, res){
     var db = req.db;
@@ -121,7 +132,7 @@ router.get('/search/:query', function(req, res){
             }}, 
             function(e, docs){
         if(docs){
-            res.redirect("../contact/" + docs[0]._id);
+            res.redirect("../contactinfo/" + docs[0]._id);
         }
     }); 
 });

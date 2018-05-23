@@ -1,3 +1,5 @@
+// Seperate route for campaign for sanity's sake
+
 var express = require('express');
 var ObjectId = require('mongodb').ObjectId;
 var router = express.Router();
