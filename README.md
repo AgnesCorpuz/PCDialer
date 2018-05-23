@@ -64,10 +64,14 @@ Open another Instance of Command Prompt and run:
 ```
 
 Update framework.js file:
+```
 Copy and paste the Client ID (Implicit Grant) depending on the location to be used by the embedded agent interface.
+```
 
 Update config.js file:
+```
 Copy and paste the Client ID and Secret (Client Credentials) to be used by the Platform API SDK.
+```
 
 #### Viewing the page locally ####
 Open Command Prompt to C:\...\PCDialer:
