@@ -113,7 +113,13 @@ function pureCloudCreateContactList(req, res){
 /* GET Contact via URL search. */
 router.get('/search/:query', function(req, res){
     var db = req.db;
-    db.get('Contacts').find({'Phone': req.params.query}, function(e, docs){
+    console.log(req.params.query);
+    db.get('Contacts').createIndex({ "$**": "text" });
+    db.get('Contacts').find(
+            { $text : { 
+                $search: req.params.query
+            }}, 
+            function(e, docs){
         if(docs){
             res.redirect("../contact/" + docs[0]._id);
         }
